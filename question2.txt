@@ -1,0 +1,24 @@
+Suppose	I	write	this	inordinately	complex	command	line	in	Linux:
+
+for a in `yes | nl | head -50 | cut -f 1`; do \
+
+head -$(($a*2)) inputfile | tail -1 | \
+
+awk 'BEGIN{FS="\t"}{print $2}' | xargs wget -c 2> /dev/null;
+
+done
+
+What	can	you	tell	about	the	expected	contents	of	the	input file?
+
+What	does	the	command	do,	and	how	would	you	simplify	it?
+
+
+ANSWER:
+
+For each even line number from 2 to 100, starting with tab,  download the url specified just after the first tab and ignore errors
+
+head -100 inputfile | sed -n "n;p"|  awk '/^\t/{print $1}' | xargs wget -c 2> /dev/null;
+
+or
+
+head -100 inputfile | awk '/^\t/{if( NR % 2 == 0) print $1}' | xargs wget -c 2> /dev/null;

@@ -1,0 +1,26 @@
+I’d	like	to	see	how	many	players	of	each	rank	are	playing	each	level,	so	I	might	write	a	query	like	this:
+
+SELECT count(*) as num_players, Rank
+
+FROM Players
+
+JOIN Levels ON (Players.Level_ID = Levels.Level_ID)
+
+GROUP BY LevelName;
+
+What	is	wrong	with	this	query,	and	why?		What	would	you	do	to	fix	it?
+
+
+Answer:
+
+The Rank has to be part of group by. LevelName is mispelled in the group by. We need Level_Name in select too.
+
+Here is how it should look like:
+
+SELECT count(*) as num_players, Rank, Level_Name
+
+FROM Players
+
+JOIN Levels ON (Players.Level_ID = Levels.Level_ID)
+
+GROUP BY  Level_Name, Rank;
